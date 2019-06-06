@@ -1,0 +1,13 @@
+[v] bolha
+[v] Inserção direta
+[v] inserção binária
+[v] shell
+[v] seleção direta
+[v] heap
+[v] quick (para diferentes pivô) 
+[x] merge
+[x] radix
+[x] bucket
+
+v = troca e comparacao e tempo
+x = só implementacao funcionando
