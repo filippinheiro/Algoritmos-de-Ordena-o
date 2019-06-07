@@ -2,50 +2,51 @@
 Artigo comparativo sobre Algoritmos de Ordenação em C
 
 ## Gerando números em arquivo
-'./gera ordem quantidade'
+`./gera ordem quantidade`
 
 para ordem tem-se:
 
-'''
+```
   -c para crescente
 
   -d para decrescente
 
   -a para 
-'''
+```
 
 exemplo:
-'''
+```
   ./gera -a 100
-'''
+```
   gerando 100 elementos aleatórios
 
 será gerado entrada.txt
 
-#Ordenando aquivo
-'./ordena algoritimo tamanho arquivo'
+### Ordenando aquivo
+`./ordena algoritimo tamanho arquivo`
 
-lista de algoritimo:
-  *bolha
+lista de algoritimo:  
 
-  *insercaoDireta
+  * bolha
 
-  *binaria
+  * insercaoDireta
 
-  *selecao
+  * binaria
 
-  *shell
+  * selecao
 
-  *heap
+  * shell
 
-  *merge
+  * heap
 
-  *radix
+  * merge
 
-  *bucket
+  * radix
 
-  *quick
+  * bucket
+
+  * quick
 
 exemplo:
 
-  './ordena bolha 100 entrada.txt'
+  `./ordena bolha 100 entrada.txt`
