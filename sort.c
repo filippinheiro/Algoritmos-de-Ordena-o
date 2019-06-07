@@ -60,7 +60,6 @@ void binaria(int* vetor, int n, int* comp, int* troca){
 		}
 
 		for(int j = i; j>esq; j--){
-			*comp += 1;
 			*troca += 1;
 			vetor[j] = vetor[j-1];
 		}
@@ -102,6 +101,7 @@ void shell(int* vetor, int n, int* comp, int* troca){
 			*comp += 1;
 			while(j>=0 && aux < vetor[j]){
 				*troca += 1;
+				*comp += 1;
 				vetor[j+h] = vetor[j];
 				j = j-h;
 			}
@@ -149,58 +149,6 @@ void heap(int* vetor, int n, int* comp, int* troca){
 	}
 }
 
-//https://pt.wikipedia.org/wiki/Quicksort
-/**
-*	tipo:
-*	1 - quicksortini
-*	2 - quicksortcentro
-* 3 - quicksortmediana
-*/
-void quick(int* vetor, int ini, int fim, int* comp, int* troca, int tipo){
-	int i, j, pivo, aux;
-	i = ini;
-	j = fim-1;
-
-	//escolha do pivo
-	if(tipo == 1)
-		pivo = vetor[ini]; // primeiro
-	else if(tipo == 2)
-		pivo = vetor[(ini + fim) / 2]; //central
-	else if(tipo == 3){
-		int aux[] = {vetor[ini],vetor[(ini+fim)/2],vetor[fim]};
-		int a = 0, b = 0; // só para nõa contabilizar a troca e comparações
-		selecao(aux,3,&a,&b);
-		pivo = aux[1]; //mediana
-	}
-	
-	while(i <= j){
-		
-    while(vetor[i] < pivo && i < fim){
-      *comp += 1;
-      i++;
-    }
-		
-    while(vetor[j] > pivo && j > ini){
-      *comp += 1;
-      j--;
-    }
-		
-		if(i <= j){
-      *troca += 1;
-			aux = vetor[i];
-			vetor[i] = vetor[j];
-			vetor[j] = aux;
-			i++;
-			j--;
-		}
-	}
-	if(j > ini)
-		quick(vetor, ini, j+1, comp, troca, tipo);
-	if(i < fim)
-		quick(vetor, i, fim,comp,troca,tipo);
-}
-
-
 void intercalar(int vetor[],int inicio, int fim, int meio, int* comp, int* troca){
 	int i = inicio;
 	int j = meio + 1;
@@ -212,12 +160,10 @@ void intercalar(int vetor[],int inicio, int fim, int meio, int* comp, int* troca
 		while((i <= meio) || (j<= fim)){
 			*comp += 1;
 			if((i == meio+1) || ((vetor[j] < vetor[i]) && (j!=fim+1))){
-				*troca += 1;
 				vetAux[k] = vetor[j];
 				j++;
 				k++;
 			}else{
-				*troca += 1;
 				vetAux[k] = vetor[i];
 				i++;
 				k++;
@@ -225,12 +171,14 @@ void intercalar(int vetor[],int inicio, int fim, int meio, int* comp, int* troca
 		}
 
 		for(i = inicio; i <=fim; i++){
+			*troca += 1;
 			vetor[i] = vetAux[i-inicio];
 		}
 	}
 
 	free(vetAux);
 }
+
 void merge(int* vetor, int ini, int fim, int* comp, int* troca){
     if(ini<fim){
     	int meio = (ini+fim)/2;
@@ -315,3 +263,52 @@ void bucket(int* vetor, int n, int* comp, int* troca){
 	free(baldes);
 }
 
+//https://pt.wikipedia.org/wiki/Quicksort
+/**
+*	int tipo:
+*	1 - quicksortini
+*	2 - quicksortcentro
+* 	3 - quicksortmediana
+*/
+void quick(int* vetor, int ini, int fim, int* comp, int* troca, int tipo){
+	int i, j, pivo, aux;
+	i = ini;
+	j = fim-1;
+
+	//escolha do pivo
+	if(tipo == 1)
+		pivo = vetor[ini]; // primeiro
+	else if(tipo == 2)
+		pivo = vetor[(ini + fim) / 2]; //central
+	else if(tipo == 3){
+		int aux[] = {vetor[ini],vetor[(ini+fim)/2],vetor[fim]};
+		radix(aux,3,comp,troca);
+		pivo = aux[1]; //mediana
+	}
+	
+	while(i <= j){
+		
+		while(vetor[i] < pivo && i < fim){
+			*comp += 1;
+			i++;
+		}
+			
+		while(vetor[j] > pivo && j > ini){
+			*comp += 1;
+			j--;
+		}
+			
+		if(i <= j){
+			*troca += 1;
+			aux = vetor[i];
+			vetor[i] = vetor[j];
+			vetor[j] = aux;
+			i++;
+			j--;
+		}
+	}
+	if(j > ini)
+		quick(vetor, ini, j+1, comp, troca, tipo);
+	if(i < fim)
+		quick(vetor, i, fim,comp,troca,tipo);
+}

@@ -1,71 +1,31 @@
-gcc ordena.c arquivo.c ordenacao.c -o ordena
+#!/bin/bash
+
+gcc ordena.c arquivo.c sort.c -o ordena
 gcc arquivo.c gera.c -o gera
 
-n=100
-max=10000
-echo "# Resultado ordenação! #\n" > resultado.txt
-echo "Tempo\tComparações\tTroca\tAlgoritimo" >> resultado.txt
-while [ $n -le $max ];
-do
-    ./gera -c $n
-    echo "\n =#=#=# Ordenar crescente $n =#=#=#" >> resultado.txt
-    
-    ./ordena bolha $n entrada.txt >> resultado.txt
-    ./ordena insercaoDireta $n entrada.txt >> resultado.txt
-    ./ordena binaria $n entrada.txt >> resultado.txt
-    ./ordena selecao $n entrada.txt >> resultado.txt
-    ./ordena shell $n entrada.txt >> resultado.txt
-    ./ordena heap $n entrada.txt >> resultado.txt
-    ./ordena quicksortini $n entrada.txt >> resultado.txt
-    ./ordena quicksortcentro $n entrada.txt >> resultado.txt
-    ./ordena quicksortmediana $n entrada.txt >> resultado.txt
-    ./ordena merge $n entrada.txt >> resultado.txt
-    ./ordena radix $n entrada.txt >> resultado.txt
-    ./ordena bucket $n entrada.txt >> resultado.txt
-    n=$((n*10))
-done
+#modelo processador
+cat /proc/cpuinfo | grep name | cut -c1- | cut -d : -f2 > resultado.txt
+echo " " >> resultado.txt
 
-n=100
-while [ $n -le $max ];
-do
-    ./gera -d $n
-    echo "\n =#=#=# Ordenar decrescente $n =#=#=#" >> resultado.txt
-    
-    ./ordena bolha $n entrada.txt >> resultado.txt
-    ./ordena insercaoDireta $n entrada.txt >> resultado.txt
-    ./ordena binaria $n entrada.txt >> resultado.txt
-    ./ordena selecao $n entrada.txt >> resultado.txt
-    ./ordena shell $n entrada.txt >> resultado.txt
-    ./ordena heap $n entrada.txt >> resultado.txt
-    ./ordena quicksortini $n entrada.txt >> resultado.txt
-    ./ordena quicksortcentro $n entrada.txt >> resultado.txt
-    ./ordena quicksortmediana $n entrada.txt >> resultado.txt
-    ./ordena merge $n entrada.txt >> resultado.txt
-    ./ordena radix $n entrada.txt >> resultado.txt
-    ./ordena bucket $n entrada.txt >> resultado.txt
-    n=$((n*10))
-done
+ordem=("Crescente" "Decrescente" "Aleatório")
+algoritimo=("bolha" "insercaoDireta" "binaria" "selecao" "shell" "heap" "quicksortini" "quicksortcentro" "quicksortmediana" "merge" "radix" "bucket")
+arg=("-c" "-d" "-a")
 
-n=100
-while [ $n -le $max ];
-do
-    ./gera -a $n
-    echo "\n =#=#=# Ordenar aleatório $n =#=#=#" >> resultado.txt
-    
-    ./ordena bolha $n entrada.txt >> resultado.txt
-    ./ordena insercaoDireta $n entrada.txt >> resultado.txt
-    ./ordena binaria $n entrada.txt >> resultado.txt
-    ./ordena selecao $n entrada.txt >> resultado.txt
-    ./ordena shell $n entrada.txt >> resultado.txt
-    ./ordena heap $n entrada.txt >> resultado.txt
-    ./ordena quicksortini $n entrada.txt >> resultado.txt
-    ./ordena quicksortcentro $n entrada.txt >> resultado.txt
-    ./ordena quicksortmediana $n entrada.txt >> resultado.txt
-    ./ordena merge $n entrada.txt >> resultado.txt
-    ./ordena radix $n entrada.txt >> resultado.txt
-    ./ordena bucket $n entrada.txt >> resultado.txt
-    n=$((n*10))
-done
+echo "# Resultado ordenação! #\n" >> resultado.txt
+echo "Tempo\tComparações\tTroca\t" >> resultado.txt
+echo " " >> resultado.txt
 
-echo "Enter to exit"
-read ENTER
+for n in 100 1000 10000;
+do
+    for((i=0; i<3; i++));
+    do
+        echo "## Ordenar ${ordem[$i]} $n ##" >> resultado.txt
+        ./gera ${arg[$i]} $n
+
+        for((j=0; j<12; j++));
+        do
+            ./ordena ${algoritimo[$j]} $n entrada.txt >> resultado.txt
+        done
+        echo " " >> resultado.txt
+    done
+done

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "ordenacao.h"
+#include "sort.h"
 #include "arquivo.h"
 
 
@@ -101,10 +101,10 @@ int main(int argc, char** argv){
         }
         tempo = (tempo_fim - tempo_ini) / (double) CLOCKS_PER_SEC;
 
+        printf("%s\t",metodo);
         printf("%f\t",tempo);
         printf("%d\t",comp);
         printf("%d\t\n",troca);
-        //printf("%s\t\n",metodo);
 
         gravarVetor(vet,n,"saida.txt");
     }
