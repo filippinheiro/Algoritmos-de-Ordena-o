@@ -2,8 +2,12 @@
 
 *.o
 
+.vscode
 
 /Descricoes
 
+*.txt
 
 *.ods
+
+trabalho_ed2.code-workspace
