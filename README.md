@@ -11,7 +11,7 @@ para ordem tem-se:
 
   -d para decrescente
 
-  -a para 
+  -a para aleatório
 ```
 
 exemplo:
